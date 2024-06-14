@@ -1,8 +1,8 @@
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { stat } from "fs";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
 
     const user = await currentUser()
 
