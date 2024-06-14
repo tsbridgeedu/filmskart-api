@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
     const res = {
         "id": user?.id,
         "username": user?.username,
+        "profileImage": user?.imageUrl,
         "first_name": user?.firstName,
         "last_name": user?.lastName,
         "public_metadata": user?.publicMetadata,
@@ -33,20 +34,29 @@ export async function PATCH(req: Request) {
 
     const body = await req.json()
 
-    const tagline = body.tagline;
-    const bio = body.bio;
+    if(body.firstName != null){
+        await clerkClient.users.updateUser(user.id, {
+            "firstName": body.firstName
+        })
+    }
 
-    if(tagline != null){
+    if(body.lastName !== null){
+        await clerkClient.users.updateUser(user.id, {
+            "lastName": body.lastName
+        })
+    }
+
+    if(body.tagline != null){
         await clerkClient.users.updateUserMetadata(user.id, {
             publicMetadata: {
-              "tagline": tagline
+              "tagline": body.tagline
             }
         })
     }
-    if(bio != null){
+    if(body.bio != null){
         await clerkClient.users.updateUserMetadata(user.id, {
             publicMetadata: {
-              "bio": bio
+              "bio": body.bio
             }
         })
     }
