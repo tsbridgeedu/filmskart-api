@@ -1,5 +1,4 @@
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
-import { stat } from "fs";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
