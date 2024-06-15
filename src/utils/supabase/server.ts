@@ -1,17 +1,21 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export function createClient(token: string) {
+export function createClient(token: string|null = null) {
   const cookieStore = cookies()
+
+  const headers: { [key: string]: any }= {}
+
+  if (token != null) {
+    headers["Authorization"] = `Bearer ${token}`
+  }
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       global: {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        }
+        headers: headers
       },
       cookies: {
         get(name: string) {
